@@ -1,0 +1,16 @@
+{
+  "name": "@loan/core",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "nanoid": "^5.0.9",
+    "zod": "^3.23.8",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@loan/config": "workspace:*",
+    "typescript": "^5.5.4"
+  }
+}
