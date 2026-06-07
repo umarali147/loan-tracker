@@ -9,3 +9,6 @@ build
 .env
 .env.local
 *.tsbuildinfo
+
+# OrbitNest MCP local project context (not app config)
+.orbitnest/

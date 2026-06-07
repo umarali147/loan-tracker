@@ -1,14 +1,17 @@
-import { useLoanStore } from "@loan/core";
+import { OrbitNestStorageAdapter, useLoanStore } from "@loan/core";
 import { ActivityIndicator, View } from "react-native";
 import { colors } from "@loan/ui";
 import { type ReactNode, useEffect, useState } from "react";
-import { SQLiteStorageAdapter } from "../lib/sqlite-adapter";
+import { orbitnest } from "../lib/orbitnest";
 
 export function StorageProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const adapter = new SQLiteStorageAdapter();
+    const adapter = new OrbitNestStorageAdapter(
+      orbitnest,
+      () => orbitnest.auth.getSession()?.access_token,
+    );
     useLoanStore.getState().setStorage(adapter);
     useLoanStore
       .getState()

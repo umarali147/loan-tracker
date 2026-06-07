@@ -1,15 +1,18 @@
 "use client";
 
-import { useLoanStore } from "@loan/core";
+import { OrbitNestStorageAdapter, useLoanStore } from "@loan/core";
 import { useEffect, useState } from "react";
-import { DexieStorageAdapter } from "@/lib/dexie-adapter";
+import { orbitnest } from "@/lib/orbitnest";
 
 export function StorageProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
   const initialized = useLoanStore((s) => s.initialized);
 
   useEffect(() => {
-    const adapter = new DexieStorageAdapter();
+    const adapter = new OrbitNestStorageAdapter(
+      orbitnest,
+      () => orbitnest.auth.getSession()?.access_token,
+    );
     useLoanStore.getState().setStorage(adapter);
     useLoanStore
       .getState()

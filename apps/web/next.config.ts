@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Served at https://arttools.live/loan-tracker behind nginx.
+  basePath: "/loan-tracker",
   transpilePackages: [
     "@loan/core",
     "@loan/ui",

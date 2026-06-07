@@ -1,9 +1,19 @@
-import { colors } from "@loan/ui";
+import { useAuthStore } from "@loan/core";
+import { colors, spacing } from "@loan/ui";
 import { Tabs } from "expo-router";
-import { Text } from "react-native";
+import { Pressable, Text } from "react-native";
 
 function TabIcon({ symbol, color }: { symbol: string; color: string }) {
   return <Text style={{ fontSize: 18, color }}>{symbol}</Text>;
+}
+
+function SignOutButton() {
+  const signOut = useAuthStore((s) => s.signOut);
+  return (
+    <Pressable onPress={() => signOut()} style={{ paddingHorizontal: spacing.lg }}>
+      <Text style={{ color: colors.primary, fontWeight: "600", fontSize: 14 }}>Sign out</Text>
+    </Pressable>
+  );
 }
 
 export default function TabLayout() {
@@ -14,6 +24,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: colors.textMuted,
         headerStyle: { backgroundColor: "#ffffff" },
         headerTitleStyle: { fontWeight: "700" },
+        headerRight: () => <SignOutButton />,
       }}
     >
       <Tabs.Screen
