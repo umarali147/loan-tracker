@@ -132,7 +132,7 @@ export default function LoanDetailPage() {
             This loan is fully settled. Edit it to add more principal if needed.
           </div>
         ) : (
-          <PaymentForm loanId={loan.id} />
+          <PaymentForm loanId={loan.id} remaining={summary.remainingBalance} />
         )}
       </section>
 

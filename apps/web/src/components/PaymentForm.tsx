@@ -8,12 +8,19 @@ function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-export function PaymentForm({ loanId }: { loanId: string }) {
+export function PaymentForm({
+  loanId,
+  remaining,
+}: {
+  loanId: string;
+  remaining: number;
+}) {
   const addPayment = useLoanStore((s) => s.addPayment);
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<PaymentInput>({
     resolver: zodResolver(paymentInputSchema),
@@ -38,14 +45,32 @@ export function PaymentForm({ loanId }: { loanId: string }) {
         <label className="block text-xs font-semibold mb-1 text-gray-600">
           Amount
         </label>
-        <input
-          {...register("amount")}
-          type="number"
-          step="0.01"
-          min="0"
-          placeholder="0.00"
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-        />
+        <div className="relative">
+          <input
+            {...register("amount")}
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+            className="w-full px-3 py-2 pr-14 border border-gray-300 rounded-lg"
+          />
+          {remaining > 0 && (
+            <button
+              type="button"
+              onClick={() =>
+                setValue(
+                  "amount",
+                  (Math.round(remaining * 100) / 100) as unknown as number,
+                  { shouldValidate: true }
+                )
+              }
+              title={`Fill remaining balance`}
+              className="absolute inset-y-1 right-1 px-2.5 rounded-md bg-emerald-50 text-emerald-700 text-xs font-semibold hover:bg-emerald-100 transition"
+            >
+              All
+            </button>
+          )}
+        </div>
         {errors.amount && (
           <p className="text-xs text-rose-600 mt-1">{errors.amount.message}</p>
         )}
