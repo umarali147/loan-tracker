@@ -1,6 +1,6 @@
 import type { OrbitNestClient } from "@orbitnest/node";
 import type { StorageAdapter } from "./storage";
-import type { Loan, Payment } from "./types";
+import type { Loan, LoanEvent, Payment } from "./types";
 
 /** Returns the current user access token (or null) for per-user scoping. */
 export type TokenGetter = () => string | null | undefined;
@@ -71,5 +71,14 @@ export class OrbitNestStorageAdapter implements StorageAdapter {
 
   async deletePayment(id: string): Promise<void> {
     await this.call<{ success: boolean }>("delete-payment", { id });
+  }
+
+  async listAllEvents(): Promise<LoanEvent[]> {
+    const { events } = await this.call<{ events: LoanEvent[] }>("list-events", {});
+    return events;
+  }
+
+  async createEvent(event: LoanEvent): Promise<void> {
+    await this.call<{ event: LoanEvent }>("create-event", { event });
   }
 }

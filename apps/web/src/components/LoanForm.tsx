@@ -60,14 +60,14 @@ export function LoanForm({
           name="direction"
           control={control}
           render={({ field }) => (
-            <div className="flex rounded-lg border border-slate-300 overflow-hidden">
+            <div className="flex rounded-lg border border-gray-300 overflow-hidden">
               <button
                 type="button"
                 onClick={() => field.onChange("lent")}
                 className={`flex-1 py-3 text-sm font-semibold transition ${
                   field.value === "lent"
-                    ? "bg-teal-600 text-white"
-                    : "bg-white text-slate-700 hover:bg-slate-50"
+                    ? "bg-emerald-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 I lent money
@@ -75,10 +75,10 @@ export function LoanForm({
               <button
                 type="button"
                 onClick={() => field.onChange("borrowed")}
-                className={`flex-1 py-3 text-sm font-semibold transition border-l border-slate-300 ${
+                className={`flex-1 py-3 text-sm font-semibold transition border-l border-gray-300 ${
                   field.value === "borrowed"
-                    ? "bg-amber-700 text-white"
-                    : "bg-white text-slate-700 hover:bg-slate-50"
+                    ? "bg-rose-600 text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 I borrowed money
@@ -92,12 +92,12 @@ export function LoanForm({
         <label className="block text-sm font-semibold mb-1">Contact name</label>
         <input
           {...register("contactName")}
-          className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
           placeholder="e.g. Alice"
           autoComplete="off"
         />
         {errors.contactName && (
-          <p className="text-sm text-amber-700 mt-1">
+          <p className="text-sm text-rose-600 mt-1">
             {errors.contactName.message}
           </p>
         )}
@@ -111,11 +111,11 @@ export function LoanForm({
             type="number"
             step="0.01"
             min="0"
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
             placeholder="0.00"
           />
           {errors.principalAmount && (
-            <p className="text-sm text-amber-700 mt-1">
+            <p className="text-sm text-rose-600 mt-1">
               {errors.principalAmount.message}
             </p>
           )}
@@ -144,10 +144,10 @@ export function LoanForm({
           <input
             {...register("dateIssued")}
             type="date"
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
           />
           {errors.dateIssued && (
-            <p className="text-sm text-amber-700 mt-1">
+            <p className="text-sm text-rose-600 mt-1">
               {errors.dateIssued.message}
             </p>
           )}
@@ -160,7 +160,7 @@ export function LoanForm({
           <input
             {...register("dateDue")}
             type="date"
-            className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg"
           />
         </div>
       </div>
@@ -172,7 +172,7 @@ export function LoanForm({
         <textarea
           {...register("notes")}
           rows={3}
-          className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
           placeholder="What was it for?"
         />
       </div>
@@ -181,14 +181,14 @@ export function LoanForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg disabled:opacity-50"
+          className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg disabled:opacity-50"
         >
           {isSubmitting ? "Saving…" : submitLabel}
         </button>
         <button
           type="button"
           onClick={() => router.push(onCancelHref)}
-          className="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold rounded-lg"
+          className="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg"
         >
           Cancel
         </button>

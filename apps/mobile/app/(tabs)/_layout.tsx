@@ -1,17 +1,18 @@
 import { useAuthStore } from "@loan/core";
-import { colors, spacing } from "@loan/ui";
+import { colors, fonts, spacing } from "@loan/ui";
 import { Tabs } from "expo-router";
-import { Pressable, Text } from "react-native";
-
-function TabIcon({ symbol, color }: { symbol: string; color: string }) {
-  return <Text style={{ fontSize: 18, color }}>{symbol}</Text>;
-}
+import { Archive, LayoutDashboard, LogOut } from "lucide-react-native";
+import { Pressable } from "react-native";
 
 function SignOutButton() {
   const signOut = useAuthStore((s) => s.signOut);
   return (
-    <Pressable onPress={() => signOut()} style={{ paddingHorizontal: spacing.lg }}>
-      <Text style={{ color: colors.primary, fontWeight: "600", fontSize: 14 }}>Sign out</Text>
+    <Pressable
+      onPress={() => signOut()}
+      hitSlop={8}
+      style={{ paddingHorizontal: spacing.lg }}
+    >
+      <LogOut size={20} color={colors.textMuted} />
     </Pressable>
   );
 }
@@ -22,8 +23,14 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
-        headerStyle: { backgroundColor: "#ffffff" },
-        headerTitleStyle: { fontWeight: "700" },
+        tabBarLabelStyle: { fontFamily: fonts.medium, fontSize: 11 },
+        tabBarStyle: {
+          backgroundColor: colors.surface,
+          borderTopColor: colors.border,
+        },
+        headerStyle: { backgroundColor: colors.surface },
+        headerTitleStyle: { fontFamily: fonts.bold, color: colors.text },
+        headerShadowVisible: false,
         headerRight: () => <SignOutButton />,
       }}
     >
@@ -31,14 +38,18 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Dashboard",
-          tabBarIcon: ({ color }) => <TabIcon symbol="◎" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <LayoutDashboard color={color} size={size ?? 22} />
+          ),
         }}
       />
       <Tabs.Screen
         name="archive"
         options={{
           title: "Archive",
-          tabBarIcon: ({ color }) => <TabIcon symbol="✓" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Archive color={color} size={size ?? 22} />
+          ),
         }}
       />
     </Tabs>

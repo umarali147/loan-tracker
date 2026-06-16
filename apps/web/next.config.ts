@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { join } from "node:path";
 
 const nextConfig: NextConfig = {
   // Served at https://arttools.live/loan-tracker behind nginx.
@@ -10,6 +11,9 @@ const nextConfig: NextConfig = {
     "react-native-web",
   ],
   turbopack: {
+    // pnpm monorepo: pin the workspace root so Turbopack resolves `next`
+    // from the repo root instead of inferring the wrong directory.
+    root: join(__dirname, "..", ".."),
     resolveAlias: {
       "react-native": "react-native-web",
     },

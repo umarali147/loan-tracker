@@ -35,7 +35,7 @@ export function PaymentForm({ loanId }: { loanId: string }) {
       className="flex flex-col sm:flex-row gap-2 sm:items-end"
     >
       <div className="flex-1">
-        <label className="block text-xs font-semibold mb-1 text-slate-600">
+        <label className="block text-xs font-semibold mb-1 text-gray-600">
           Amount
         </label>
         <input
@@ -44,41 +44,41 @@ export function PaymentForm({ loanId }: { loanId: string }) {
           step="0.01"
           min="0"
           placeholder="0.00"
-          className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
         {errors.amount && (
-          <p className="text-xs text-amber-700 mt-1">{errors.amount.message}</p>
+          <p className="text-xs text-rose-600 mt-1">{errors.amount.message}</p>
         )}
       </div>
       <div className="flex-1">
-        <label className="block text-xs font-semibold mb-1 text-slate-600">
+        <label className="block text-xs font-semibold mb-1 text-gray-600">
           Date
         </label>
         <input
           {...register("date")}
           type="date"
-          className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
         {errors.date && (
-          <p className="text-xs text-amber-700 mt-1">{errors.date.message}</p>
+          <p className="text-xs text-rose-600 mt-1">{errors.date.message}</p>
         )}
       </div>
       <div className="flex-1">
-        <label className="block text-xs font-semibold mb-1 text-slate-600">
+        <label className="block text-xs font-semibold mb-1 text-gray-600">
           Note (optional)
         </label>
         <input
           {...register("note")}
           placeholder="e.g. Venmo"
-          className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg"
         />
       </div>
       <button
         type="submit"
         disabled={isSubmitting}
-        className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg disabled:opacity-50"
+        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg disabled:opacity-50"
       >
-        Log payment
+        {isSubmitting ? "Settling…" : "Settle up"}
       </button>
     </form>
   );

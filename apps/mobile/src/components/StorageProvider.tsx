@@ -21,6 +21,8 @@ export function StorageProvider({ children }: { children: ReactNode }) {
         console.error("Failed to initialize storage", err);
         setReady(true);
       });
+    // Fetch FX rates for multi-currency dashboard totals (non-blocking).
+    useLoanStore.getState().loadRates();
   }, []);
 
   if (!ready) {

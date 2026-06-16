@@ -1,4 +1,4 @@
-import type { Loan, Payment } from "./types";
+import type { Loan, LoanEvent, Payment } from "./types";
 
 export interface StorageAdapter {
   init(): Promise<void>;
@@ -13,4 +13,8 @@ export interface StorageAdapter {
   listAllPayments(): Promise<Payment[]>;
   createPayment(payment: Payment): Promise<void>;
   deletePayment(id: string): Promise<void>;
+
+  // Shared loan history (optional — backends that support it implement these).
+  listAllEvents?(): Promise<LoanEvent[]>;
+  createEvent?(event: LoanEvent): Promise<void>;
 }

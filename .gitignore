@@ -12,3 +12,10 @@ build
 
 # OrbitNest MCP local project context (not app config)
 .orbitnest/
+
+# Expo CNG native projects (regenerated via `expo prebuild`) + build artifacts
+/apps/*/android/
+/apps/*/ios/
+*.apk
+*.aab
+*.keystore

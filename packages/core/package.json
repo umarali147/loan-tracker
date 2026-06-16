@@ -5,7 +5,7 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "dependencies": {
-    "@orbitnest/node": "git+ssh://git@github.com/mahtab-ali/orbitnest_node.git",
+    "@orbitnest/node": "git+ssh://git@github.com/mahtab-ali/orbitnest_node.git#main",
     "nanoid": "^5.0.9",
     "zod": "^3.23.8",
     "zustand": "^5.0.2"

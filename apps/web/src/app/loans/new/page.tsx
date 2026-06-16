@@ -12,7 +12,7 @@ export default function NewLoanPage() {
       <div className="mb-6">
         <Link
           href="/"
-          className="text-sm text-teal-700 hover:underline font-medium"
+          className="text-sm text-emerald-700 hover:underline font-medium"
         >
           ← Back to dashboard
         </Link>

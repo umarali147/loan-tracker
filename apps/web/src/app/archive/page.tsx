@@ -20,7 +20,7 @@ export default function ArchivePage() {
       <h2 className="text-2xl font-bold mb-6">Archive</h2>
 
       {settled.length === 0 ? (
-        <div className="bg-white border border-slate-200 rounded-xl p-8 text-center text-slate-500">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 text-center text-gray-500">
           No settled loans yet. Loans move here once their remaining balance
           reaches 0.
         </div>
@@ -30,7 +30,7 @@ export default function ArchivePage() {
             <li key={loan.id}>
               <Link
                 href={`/loans/${loan.id}`}
-                className="flex items-center justify-between gap-4 bg-white border border-slate-200 hover:border-teal-400 rounded-xl px-4 py-3 transition"
+                className="flex items-center justify-between gap-4 bg-white border border-gray-200 hover:border-emerald-400 rounded-xl px-4 py-3 transition"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -39,19 +39,19 @@ export default function ArchivePage() {
                     <span
                       className={`text-xs font-semibold ${
                         loan.direction === "lent"
-                          ? "text-teal-700"
-                          : "text-amber-800"
+                          ? "text-emerald-700"
+                          : "text-rose-700"
                       }`}
                     >
                       {loan.direction === "lent" ? "Lent" : "Borrowed"}
                     </span>
                   </div>
-                  <div className="text-xs text-slate-500 mt-1">
+                  <div className="text-xs text-gray-500 mt-1">
                     Settled · {new Date(loan.updatedAt).toLocaleDateString()}
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-semibold text-slate-700">
+                  <div className="font-semibold text-gray-700">
                     {formatCurrency(loan.principalAmount, loan.currency)}
                   </div>
                 </div>

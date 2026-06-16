@@ -1,16 +1,23 @@
 import {
   computeLoanSummary,
   formatCurrency,
+  type LoanEvent,
   type Payment,
   useLoanStore,
 } from "@loan/core";
 
 const EMPTY_PAYMENTS: Payment[] = [];
-import { Badge, Button, Card, colors, spacing, typography } from "@loan/ui";
+const EMPTY_EVENTS: LoanEvent[] = [];
+import { Badge, Button, Card, colors, radius, spacing, typography } from "@loan/ui";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
+import { Banknote, CheckCircle2, Pencil, Plus, Trash2 } from "lucide-react-native";
 import { useMemo } from "react";
-import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { PaymentForm } from "../../../src/components/PaymentForm";
+
+type TimelineItem =
+  | { id: string; ts: string; type: "payment"; payment: Payment }
+  | { id: string; ts: string; type: "event"; event: LoanEvent };
 
 export default function LoanDetailScreen() {
   const router = useRouter();
@@ -18,8 +25,33 @@ export default function LoanDetailScreen() {
   const loan = useLoanStore((s) => s.loans.find((l) => l.id === id));
   const paymentsRaw = useLoanStore((s) => s.paymentsByLoan[id ?? ""]);
   const payments = paymentsRaw ?? EMPTY_PAYMENTS;
+  const eventsRaw = useLoanStore((s) => s.eventsByLoan[id ?? ""]);
+  const events = eventsRaw ?? EMPTY_EVENTS;
   const removeLoan = useLoanStore((s) => s.removeLoan);
   const removePayment = useLoanStore((s) => s.removePayment);
+
+  const timeline = useMemo<TimelineItem[]>(
+    () =>
+      [
+        ...payments.map(
+          (p): TimelineItem => ({
+            id: `p_${p.id}`,
+            ts: p.createdAt || p.date,
+            type: "payment",
+            payment: p,
+          })
+        ),
+        ...events.map(
+          (e): TimelineItem => ({
+            id: `e_${e.id}`,
+            ts: e.createdAt,
+            type: "event",
+            event: e,
+          })
+        ),
+      ].sort((a, b) => b.ts.localeCompare(a.ts)),
+    [payments, events]
+  );
 
   const summary = useMemo(
     () => (loan ? computeLoanSummary(loan, payments) : null),
@@ -121,7 +153,7 @@ export default function LoanDetailScreen() {
         <DetailRow label="Notes" value={loan.notes || "—"} last />
       </Card>
 
-      <Text style={styles.sectionHeader}>Log a payment</Text>
+      <Text style={styles.sectionHeader}>Settle up</Text>
       {loan.status === "settled" ? (
         <Text style={{ color: colors.textMuted }}>
           This loan is settled. Edit it to raise the principal if needed.
@@ -130,34 +162,71 @@ export default function LoanDetailScreen() {
         <PaymentForm loanId={loan.id} />
       )}
 
-      <Text style={styles.sectionHeader}>Payment history</Text>
-      {payments.length === 0 ? (
-        <Text style={{ color: colors.textMuted }}>No payments logged yet.</Text>
+      <Text style={styles.sectionHeader}>History</Text>
+      {timeline.length === 0 ? (
+        <Text style={{ color: colors.textMuted }}>No activity yet.</Text>
       ) : (
-        payments
-          .slice()
-          .reverse()
-          .map((p) => (
-            <Card key={p.id} style={{ marginBottom: spacing.sm }}>
-              <View style={styles.paymentRow}>
-                <View>
-                  <Text style={styles.amount}>{formatCurrency(p.amount)}</Text>
-                  <Text
-                    style={{ ...typography.caption, color: colors.textMuted }}
-                  >
-                    {new Date(p.date).toLocaleDateString()}
-                    {p.note ? ` · ${p.note}` : ""}
+        timeline.map((item) =>
+          item.type === "payment" ? (
+            <Card key={item.id} style={{ marginBottom: spacing.sm }}>
+              <View style={styles.histRow}>
+                <View style={[styles.histIcon, { backgroundColor: colors.primaryMuted }]}>
+                  <Banknote size={16} color={colors.primary} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.amount}>
+                    Payment · {formatCurrency(item.payment.amount, loan.currency)}
+                  </Text>
+                  <Text style={{ ...typography.caption, color: colors.textMuted }}>
+                    {new Date(item.payment.date).toLocaleDateString()}
+                    {item.payment.note ? ` · ${item.payment.note}` : ""}
                   </Text>
                 </View>
-                <Text
-                  onPress={() => removePayment(loan.id, p.id)}
-                  style={styles.deleteLink}
+                <Pressable
+                  onPress={() => removePayment(loan.id, item.payment.id)}
+                  hitSlop={8}
+                  style={styles.histDelete}
                 >
-                  Delete
-                </Text>
+                  <Trash2 size={16} color={colors.textMuted} />
+                </Pressable>
               </View>
             </Card>
-          ))
+          ) : (
+            <Card key={item.id} style={{ marginBottom: spacing.sm }}>
+              <View style={styles.histRow}>
+                <View
+                  style={[
+                    styles.histIcon,
+                    {
+                      backgroundColor:
+                        item.event.kind === "edited"
+                          ? colors.statusPartialBg
+                          : item.event.kind === "settled"
+                            ? colors.primaryMuted
+                            : colors.secondary,
+                    },
+                  ]}
+                >
+                  {item.event.kind === "created" ? (
+                    <Plus size={16} color={colors.textMuted} />
+                  ) : item.event.kind === "settled" ? (
+                    <CheckCircle2 size={16} color={colors.primary} />
+                  ) : (
+                    <Pencil size={15} color={colors.statusPartial} />
+                  )}
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={{ ...typography.body, color: colors.text }}>
+                    {item.event.message}
+                  </Text>
+                  <Text style={{ ...typography.caption, color: colors.textMuted }}>
+                    {new Date(item.event.createdAt).toLocaleString()}
+                  </Text>
+                </View>
+              </View>
+            </Card>
+          )
+        )
       )}
     </ScrollView>
   );
@@ -252,6 +321,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  histRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.md,
+  },
+  histIcon: {
+    width: 34,
+    height: 34,
+    borderRadius: radius.md,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  histDelete: {
+    width: 32,
+    height: 32,
+    alignItems: "center",
+    justifyContent: "center",
   },
   amount: {
     ...typography.body,

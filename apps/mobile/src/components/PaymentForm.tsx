@@ -75,7 +75,7 @@ export function PaymentForm({ loanId }: { loanId: string }) {
         )}
       />
       <Button
-        title={isSubmitting ? "Logging…" : "Log payment"}
+        title={isSubmitting ? "Settling…" : "Settle up"}
         onPress={submit}
         disabled={isSubmitting}
       />

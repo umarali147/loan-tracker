@@ -12,12 +12,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { Wallet } from "lucide-react";
 
 type Mode = "signin" | "signup";
 
 const field =
-  "w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500";
-const errorText = "text-sm text-amber-700 mt-1";
+  "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500";
+const errorText = "text-sm text-rose-600 mt-1";
 
 export function AuthForm() {
   const [mode, setMode] = useState<Mode>("signin");
@@ -26,15 +27,25 @@ export function AuthForm() {
   const clearError = useAuthStore((s) => s.clearError);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-      <div className="w-full max-w-sm bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-        <h1 className="text-xl font-bold text-teal-700 text-center">Loan Tracker</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="w-full max-w-sm bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+        <div className="flex flex-col items-center text-center mb-2">
+          <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm mb-3">
+            <Wallet size={22} strokeWidth={2.25} />
+          </span>
+          <h1 className="text-xl font-bold tracking-tight text-gray-900">
+            Loan Tracker
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Sign in to track your loans
+          </p>
+        </div>
 
         {pendingEmail ? (
           <VerifyStep />
         ) : (
           <>
-            <div className="flex rounded-lg border border-slate-200 overflow-hidden my-6 text-sm font-semibold">
+            <div className="flex rounded-lg border border-gray-200 overflow-hidden my-6 text-sm font-semibold">
               {(["signin", "signup"] as const).map((m) => (
                 <button
                   key={m}
@@ -45,8 +56,8 @@ export function AuthForm() {
                   }}
                   className={`flex-1 py-2 transition ${
                     mode === m
-                      ? "bg-teal-600 text-white"
-                      : "bg-white text-slate-600 hover:bg-slate-50"
+                      ? "bg-emerald-600 text-white"
+                      : "bg-white text-gray-600 hover:bg-gray-50"
                   }`}
                 >
                   {m === "signin" ? "Sign in" : "Create account"}
@@ -58,7 +69,7 @@ export function AuthForm() {
         )}
 
         {error && (
-          <p className="mt-4 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+          <p className="mt-4 text-sm text-rose-700 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2">
             {error}
           </p>
         )}
@@ -165,7 +176,7 @@ function VerifyStep() {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-3 mt-6">
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-gray-600">
         Enter the 4-digit code sent to <span className="font-semibold">{pendingEmail}</span>.
       </p>
       <div>
@@ -188,7 +199,7 @@ function SubmitButton({ submitting, label }: { submitting: boolean; label: strin
     <button
       type="submit"
       disabled={submitting}
-      className="mt-1 px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg disabled:opacity-50"
+      className="mt-1 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg disabled:opacity-50"
     >
       {submitting ? "Please wait…" : label}
     </button>

@@ -17,11 +17,11 @@ export default function EditLoanPage() {
       <div>
         <Link
           href="/"
-          className="text-sm text-teal-700 hover:underline font-medium"
+          className="text-sm text-emerald-700 hover:underline font-medium"
         >
           ← Back to dashboard
         </Link>
-        <p className="mt-6 text-slate-500">Loan not found.</p>
+        <p className="mt-6 text-gray-500">Loan not found.</p>
       </div>
     );
   }
@@ -31,7 +31,7 @@ export default function EditLoanPage() {
       <div className="mb-6">
         <Link
           href={`/loans/${loan.id}`}
-          className="text-sm text-teal-700 hover:underline font-medium"
+          className="text-sm text-emerald-700 hover:underline font-medium"
         >
           ← Back to loan
         </Link>

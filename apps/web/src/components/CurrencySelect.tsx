@@ -63,17 +63,15 @@ export function CurrencySelect({ value, onChange, id }: CurrencySelectProps) {
         id={id}
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white flex items-center justify-between text-left hover:border-slate-400 transition"
+        className="w-full px-2.5 py-2 border border-gray-300 rounded-lg bg-white flex items-center gap-1.5 text-left hover:border-gray-400 transition text-sm"
       >
-        <span className="truncate">
-          <span className="font-semibold font-mono">{selected.code}</span>
-          <span className="text-slate-500 ml-2">{selected.name}</span>
-        </span>
-        <span className="text-slate-400 ml-2">▾</span>
+        <span className="text-gray-400">{selected.symbol}</span>
+        <span className="font-semibold font-mono">{selected.code}</span>
+        <span className="text-gray-400 ml-auto">▾</span>
       </button>
 
       {open && (
-        <div className="absolute z-20 mt-1 w-full bg-white border border-slate-200 rounded-lg shadow-lg overflow-hidden flex flex-col max-h-72">
+        <div className="absolute right-0 z-30 mt-1 w-64 max-w-[calc(100vw-2rem)] bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden flex flex-col max-h-72">
           <input
             autoFocus
             value={query}
@@ -99,11 +97,11 @@ export function CurrencySelect({ value, onChange, id }: CurrencySelectProps) {
               }
             }}
             placeholder="Search by code or name…"
-            className="px-3 py-2 border-b border-slate-200 outline-none text-sm"
+            className="px-3 py-2 border-b border-gray-200 outline-none text-sm"
           />
           <ul ref={listRef} className="overflow-y-auto flex-1">
             {filtered.length === 0 ? (
-              <li className="px-3 py-2 text-slate-400 text-sm">
+              <li className="px-3 py-2 text-gray-400 text-sm">
                 No matching currency
               </li>
             ) : (
@@ -115,16 +113,16 @@ export function CurrencySelect({ value, onChange, id }: CurrencySelectProps) {
                     onMouseEnter={() => setActiveIdx(i)}
                     onClick={() => commit(c.code)}
                     className={`w-full text-left px-3 py-2 text-sm flex items-center gap-3 ${
-                      i === activeIdx ? "bg-teal-50" : ""
+                      i === activeIdx ? "bg-emerald-50" : ""
                     } ${c.code === value ? "font-semibold" : ""}`}
                   >
-                    <span className="inline-block w-12 font-mono text-slate-900">
+                    <span className="inline-block w-12 font-mono text-gray-900">
                       {c.code}
                     </span>
-                    <span className="text-slate-700 flex-1 truncate">
+                    <span className="text-gray-700 flex-1 truncate">
                       {c.name}
                     </span>
-                    <span className="text-slate-400 text-xs">{c.symbol}</span>
+                    <span className="text-gray-400 text-xs">{c.symbol}</span>
                   </button>
                 </li>
               ))
