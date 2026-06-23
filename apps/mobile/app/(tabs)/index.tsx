@@ -84,7 +84,7 @@ export default function DashboardScreen() {
       <ScrollView
         contentContainerStyle={{
           padding: spacing.lg,
-          paddingBottom: 96 + insets.bottom,
+          paddingBottom: 140 + insets.bottom,
           width: "100%",
           maxWidth: 720,
           alignSelf: "center",
@@ -199,7 +199,8 @@ export default function DashboardScreen() {
       </ScrollView>
 
       <Link href="/loans/new" asChild>
-        <Pressable style={[styles.fab, { bottom: spacing.xl + insets.bottom }]}>
+        {/* Sit clear of the bottom tab bar (~49dp) which renders above screen content. */}
+        <Pressable style={[styles.fab, { bottom: 56 + insets.bottom + spacing.md }]}>
           <Plus color="#fff" size={26} strokeWidth={2.5} />
         </Pressable>
       </Link>
