@@ -258,9 +258,11 @@ function LoanRow({ loan, remaining }: { loan: Loan; remaining: number }) {
               </Text>
             </View>
             <View style={{ alignItems: "flex-end" }}>
-              <Text style={styles.amount}>{formatCurrency(remaining)}</Text>
+              <Text style={styles.amount}>
+                {formatCurrency(remaining, loan.currency)}
+              </Text>
               <Text style={{ ...typography.caption, color: colors.textMuted }}>
-                of {formatCurrency(loan.principalAmount)}
+                of {formatCurrency(loan.principalAmount, loan.currency)}
               </Text>
             </View>
           </View>

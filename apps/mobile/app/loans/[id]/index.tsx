@@ -129,11 +129,11 @@ export default function LoanDetailScreen() {
       </View>
 
       <View style={[styles.statsRow, { marginTop: spacing.lg }]}>
-        <Stat label="Principal" value={formatCurrency(loan.principalAmount)} />
-        <Stat label="Paid" value={formatCurrency(summary.totalPaid)} />
+        <Stat label="Principal" value={formatCurrency(loan.principalAmount, loan.currency)} />
+        <Stat label="Paid" value={formatCurrency(summary.totalPaid, loan.currency)} />
         <Stat
           label="Remaining"
-          value={formatCurrency(summary.remainingBalance)}
+          value={formatCurrency(summary.remainingBalance, loan.currency)}
           accent
         />
       </View>

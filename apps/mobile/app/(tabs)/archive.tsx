@@ -42,7 +42,7 @@ export default function ArchiveScreen() {
                     </Text>
                   </View>
                   <Text style={styles.amount}>
-                    {formatCurrency(loan.principalAmount)}
+                    {formatCurrency(loan.principalAmount, loan.currency)}
                   </Text>
                 </View>
               </Card>
